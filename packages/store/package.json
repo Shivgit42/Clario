@@ -1,0 +1,15 @@
+{
+  "name": "@repo/store",
+  "module": "index.ts",
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "devDependencies": {
+    "@repo/api-client": "workspace:*",
+    "@repo/types": "workspace:*"
+  },
+  "dependencies": {
+    "zustand": "^5.0.8"
+  }
+}
