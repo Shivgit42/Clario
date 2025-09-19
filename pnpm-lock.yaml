@@ -7,6 +7,10 @@ settings:
 importers:
 
   .:
+    dependencies:
+      '@prisma/client':
+        specifier: 6.15.0
+        version: 6.15.0(prisma@6.16.1(typescript@5.9.2))(typescript@5.9.2)
     devDependencies:
       prettier:
         specifier: ^3.6.2
@@ -96,9 +100,6 @@ importers:
       '@headlessui/react':
         specifier: ^2.2.7
         version: 2.2.7(react-dom@19.1.1(react@19.1.1))(react@19.1.1)
-      '@prisma/client':
-        specifier: 6.15.0
-        version: 6.15.0(prisma@6.16.1(typescript@5.9.2))(typescript@5.9.2)
       '@repo/ui':
         specifier: workspace:*
         version: link:../../packages/ui
