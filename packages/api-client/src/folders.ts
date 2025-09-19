@@ -1,9 +1,9 @@
-import { apiClient } from "./api";
 import type {
   CreateFolderPayload,
   DeleteFolderPayload,
   UpdateFolderPayload,
 } from "@repo/types";
+import { apiClient } from "./api";
 
 export const getFolders = async () => {
   try {
@@ -20,8 +20,8 @@ export const createFolder = async (folderData: CreateFolderPayload) => {
     const response = await apiClient.post(`/folders`, folderData);
     return response.data;
   } catch (error: Error | any) {
-    console.error("Error creating folders:", error);
-    throw new Error(error.response?.data?.error || "Failed to create folders");
+    console.error("Error creating folder:", error);
+    throw new Error(error.response?.data?.error || "Failed to create folder");
   }
 };
 
@@ -30,8 +30,8 @@ export const updateFolder = async (folderData: UpdateFolderPayload) => {
     const response = await apiClient.put(`/folders`, folderData);
     return response.data;
   } catch (error: Error | any) {
-    console.error("Error updating folders:", error);
-    throw new Error(error.response?.data?.error || "Failed to update folders");
+    console.error("Error updating folder:", error);
+    throw new Error(error.response?.data?.error || "Failed to update folder");
   }
 };
 
@@ -40,8 +40,7 @@ export const deleteFolder = async (folderData: DeleteFolderPayload) => {
     const response = await apiClient.delete(`/folders`, { data: folderData });
     return response.data;
   } catch (error: Error | any) {
-    console.error("Error deleting folders:", error);
-    throw new Error(error.response?.data?.error || "Failed to delete folders");
+    throw new Error(error.response?.data?.error || "Failed to delete folder");
   }
 };
 
@@ -49,7 +48,7 @@ export const resolveFolderPath = async (slugs: string[]) => {
   try {
     const queryParam = slugs.join(",");
     const response = await apiClient.get(`/folders/resolve-path`, {
-      params: { slugs: queryParam },
+      params: { slug: queryParam },
     });
     return response.data;
   } catch (error: Error | any) {
@@ -63,7 +62,7 @@ export const resolveFolderPath = async (slugs: string[]) => {
 export const getSubfolders = async (parentId: string) => {
   try {
     const response = await apiClient.get(`/folders/subfolders`, {
-      params: parentId,
+      params: { parentId },
     });
     return response.data;
   } catch (error: Error | any) {

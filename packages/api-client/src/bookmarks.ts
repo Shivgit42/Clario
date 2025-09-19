@@ -11,9 +11,9 @@ export const getBookmarks = async (folderId: string) => {
       params: { folderId },
     });
     return response.data;
-  } catch (err: Error | any) {
-    console.error("Error while fetching bookmarks", err);
-    throw new Error(err.response?.data?.error || "Failed to fetch bookmarks");
+  } catch (error: Error | any) {
+    console.error("Error fetching bookmarks:", error);
+    throw new Error(error.response?.data?.error || "Failed to fetch bookmarks");
   }
 };
 
@@ -21,9 +21,9 @@ export const createBookmark = async (bookmarkData: CreateBookmarkPayload) => {
   try {
     const response = await apiClient.post(`/bookmarks`, bookmarkData);
     return response.data;
-  } catch (err: Error | any) {
-    console.error("Error while creating bookmark", err);
-    throw new Error(err.response?.data?.error || "Failed to create bookmark");
+  } catch (error: Error | any) {
+    console.error("Error creating bookmark:", error);
+    throw new Error(error.response?.data?.error || "Failed to create bookmark");
   }
 };
 
@@ -31,9 +31,9 @@ export const updateBookmark = async (bookmarkData: UpdateBookmarkPayload) => {
   try {
     const response = await apiClient.put(`/bookmarks`, bookmarkData);
     return response.data;
-  } catch (err: Error | any) {
-    console.error("Error while updating bookmark", err);
-    throw new Error(err.response?.data?.error || "Failed to update bookmark");
+  } catch (error: Error | any) {
+    console.error("Error updating bookmark:", error);
+    throw new Error(error.response?.data?.error || "Failed to update bookmark");
   }
 };
 
@@ -43,22 +43,22 @@ export const deleteBookmark = async (bookmarkData: DeleteBookmarkPayload) => {
       data: { id: bookmarkData.id },
     });
     return response.data;
-  } catch (err: Error | any) {
-    console.error("Error while deleting bookmark", err);
-    throw new Error(err.response?.data?.error || "Failed to delete bookmark");
+  } catch (error: Error | any) {
+    console.error("Error deleting bookmark:", error);
+    throw new Error(error.response?.data?.error || "Failed to delete bookmark");
   }
 };
 
 export const getRecentBookmarks = async (limit: number = 10) => {
   try {
     const response = await apiClient.get(`/bookmarks/recent`, {
-      params: limit,
+      params: { limit },
     });
     return response.data;
-  } catch (err: Error | any) {
-    console.error("Error while fetching recent bookmark", err);
+  } catch (error: Error | any) {
+    console.error("Error fetching recent bookmarks:", error);
     throw new Error(
-      err.response?.data?.error || "Failed to fetch recent bookmark"
+      error.response?.data?.error || "Failed to fetch recent bookmarks"
     );
   }
 };
@@ -69,10 +69,10 @@ export const getNoteById = async (id: string) => {
       params: { id },
     });
     return response.data;
-  } catch (err: Error | any) {
-    console.error("Error while fetching bookmark by ID", err);
+  } catch (error: Error | any) {
+    console.error("Error fetching bookmark by ID:", error);
     throw new Error(
-      err.response?.data?.error || "Failed to fetch bookmark by ID"
+      error.response?.data?.error || "Failed to fetch bookmark by ID"
     );
   }
 };
