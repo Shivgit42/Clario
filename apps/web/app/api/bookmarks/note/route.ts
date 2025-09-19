@@ -27,7 +27,6 @@ export async function GET(req: NextRequest) {
         tags: true,
       },
     });
-    console.log("Fetched bookmark:", bookmark);
 
     return NextResponse.json({ bookmark }, { status: 200 });
   } catch (error) {
