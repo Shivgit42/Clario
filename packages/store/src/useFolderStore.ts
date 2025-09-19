@@ -1,19 +1,19 @@
+import { create } from "zustand";
+import {
+  getFolders,
+  createFolder,
+  updateFolder,
+  deleteFolder,
+  resolveFolderPath,
+  getSubfolders,
+} from "@repo/api-client";
+import { useUiStore } from "./useUiStore";
 import type {
   CreateFolderPayload,
   DeleteFolderPayload,
   Folder,
   UpdateFolderPayload,
 } from "@repo/types";
-import { create } from "zustand";
-import { useUiStore } from "./useUiStore";
-import {
-  createFolder,
-  deleteFolder,
-  getFolders,
-  getSubfolders,
-  resolveFolderPath,
-  updateFolder,
-} from "@repo/api-client";
 import { useBookmarkStore } from "./useBookmarkStore";
 
 interface FolderStore {
@@ -31,10 +31,9 @@ interface FolderStore {
   addFolder: (folderData: CreateFolderPayload) => Promise<void>;
   updateFolder: (folderData: UpdateFolderPayload) => Promise<void>;
   deleteFolder: (folderData: DeleteFolderPayload) => Promise<void>;
-  resolveFolderPath: (segments: string[]) => Promise<void>;
+  resolveFolderPath: (segments: string[]) => Promise<Folder | null>;
   cleanUp: () => void;
 }
-
 const { setLoading, setError, setLoadingFolderSkeleton } =
   useUiStore.getState();
 
@@ -66,16 +65,14 @@ export const useFolderStore = create<FolderStore>((set) => ({
       const { folders } = await getSubfolders(parentId);
       set({ subfolders: folders });
     } catch (error: any) {
-      console.error("Error fetching folders:", error);
-      setError(error.response?.data?.error || "Failed to fetch folders");
+      console.error("Error fetching subfolders:", error);
+      setError(error.response?.data?.error || "Failed to fetch subfolders");
     } finally {
       setLoadingFolderSkeleton(false);
     }
   },
 
-  setSubfolders: (subfolders) => {
-    set({ subfolders });
-  },
+  setSubfolders: (subfolders) => set({ subfolders }),
 
   resolveFolderPath: async (segments) => {
     setLoading(true);
@@ -118,6 +115,7 @@ export const useFolderStore = create<FolderStore>((set) => ({
       setLoading(false);
     }
   },
+
   updateFolder: async (folderData) => {
     setLoading(true);
     try {
@@ -125,7 +123,6 @@ export const useFolderStore = create<FolderStore>((set) => ({
       set((state) => {
         const olderFolder = state.folders.find((f) => f.id === folder.id);
         const oldSubfolder = state.subfolders?.find((f) => f.id === folder.id);
-
         const folderWithOldCount = {
           ...folder,
           _count: olderFolder?._count ?? { bookmarks: 0 },
@@ -150,6 +147,7 @@ export const useFolderStore = create<FolderStore>((set) => ({
       setLoading(false);
     }
   },
+
   deleteFolder: async (folderData) => {
     setLoading(true);
     try {
@@ -173,7 +171,6 @@ export const useFolderStore = create<FolderStore>((set) => ({
       setLoading(false);
     }
   },
-
   cleanUp: () => {
     set({
       currentFolder: null,
