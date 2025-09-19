@@ -1,0 +1,125 @@
+import Head from "next/head";
+
+export default function PrivacyPage() {
+  return (
+    <>
+      <Head>
+        <title>Privacy Policy | Clario</title>
+        <meta
+          name="description"
+          content="Privacy Policy for Clario Chrome Extension and Website"
+        />
+      </Head>
+      <main className="max-w-3xl mx-auto px-4 py-12">
+        <h1 className="text-4xl font-bold text-center text-[#ddba0e] mb-8">
+          Privacy Policy
+        </h1>
+        <p className="text-center text-gray-500 mb-12">
+          Effective date: 9/11/2025
+        </p>
+
+        <div className="space-y-8 text-gray-700 dark:text-gray-300">
+          <div>
+            <h2 className="text-2xl font-semibold text-orange-600/90 mb-2">
+              Information We Collect
+            </h2>
+            <ul className="list-disc list-inside space-y-1">
+              <li>URLs and page titles you choose to save via the extension</li>
+              <li>User preferences and settings</li>
+              <li>Notes or personal content you choose to save</li>
+            </ul>
+          </div>
+
+          <div>
+            <h2 className="text-2xl font-semibold text-orange-600/90 mb-2">
+              What We Don&apos;t Collect
+            </h2>
+            <p>
+              We do <strong>not</strong> collect or access your browsing
+              history, passwords, or personal messages. Your saved content is
+              only what you explicitly choose to add.
+            </p>
+          </div>
+
+          <div>
+            <h2 className="text-2xl font-semibold text-orange-600/90 mb-2">
+              How We Use Your Information
+            </h2>
+            <ul className="list-disc list-inside space-y-1">
+              <li>To provide our Service</li>
+              <li>To save your bookmarks and notes</li>
+              <li>To communicate with you about updates or support</li>
+            </ul>
+          </div>
+
+          <div>
+            <h2 className="text-2xl font-semibold text-orange-600/90 mb-2">
+              User Control and Data Deletion
+            </h2>
+            <p>
+              You can delete your bookmarks and folders anytime via the
+              dashboard. If you want to delete your account and all associated
+              data, please contact us at the email below.
+            </p>
+          </div>
+
+          <div>
+            <h2 className="text-2xl font-semibold text-orange-600/90 mb-2">
+              Data Storage and Security
+            </h2>
+            <p>
+              Your data is stored securely. We do not share your personal
+              information with third parties for any purpose.
+            </p>
+          </div>
+
+          <div>
+            <h2 className="text-2xl font-semibold text-orange-600/90 mb-2">
+              Data Retention
+            </h2>
+            <p>
+              We retain your data only as long as your account is active or as
+              needed to provide you the service.
+            </p>
+          </div>
+
+          <div>
+            <h2 className="text-2xl font-semibold text-orange-600/90 mb-2">
+              Cookies and Local Storage
+            </h2>
+            <p>
+              We use local storage to remember your preferences (e.g. theme
+              settings). We do not use tracking cookies.
+            </p>
+          </div>
+
+          <div>
+            <h2 className="text-2xl font-semibold text-orange-600/90 mb-2">
+              Changes to This Policy
+            </h2>
+            <p>
+              We may update our Privacy Policy from time to time. Changes will
+              be posted on this page.
+            </p>
+          </div>
+
+          <div>
+            <h2 className="text-2xl font-semibold text-orange-600/90 mb-2">
+              Contact Us
+            </h2>
+            <p>
+              If you have any questions, contact us at{" "}
+              <a
+                href="mailto:sarthak.italiya2005@gmail.com"
+                className="text-[#ddba0e] hover:underline"
+              >
+                shivam105228@gmail.com
+              </a>
+              .
+            </p>
+          </div>
+        </div>
+      </main>
+    </>
+  );
+}
