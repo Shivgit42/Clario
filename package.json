@@ -2,7 +2,7 @@
   "name": "second-brain",
   "private": true,
   "scripts": {
-    "postinstall": "pnpm --filter @repo/db prisma generate",
+    "postinstall": "pnpm prisma generate --schema=packages/db/prisma/schema.prisma",
     "build": "turbo run build",
     "dev": "turbo run dev",
     "lint": "turbo run lint",
@@ -19,6 +19,7 @@
     "node": ">=18"
   },
   "dependencies": {
-    "@prisma/client": "6.15.0"
+    "@prisma/client": "6.15.0",
+    "prisma": "^6.15.0"
   }
 }
