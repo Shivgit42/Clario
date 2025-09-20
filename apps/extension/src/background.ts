@@ -10,34 +10,33 @@ chrome.runtime.onInstalled.addListener((details) => {
 });
 
 chrome.runtime.onMessage.addListener((message, _sender, sendResponse) => {
-  if (message.type === "FETCH_FOLDERS") {
-    getFolders()
-      .then((res) => {
-        sendResponse({ folders: res.folders });
-      })
-      .catch((error) => {
-        console.error("Error fetching folders:", error);
-        sendResponse({ error: "Failed to fetch folders." });
-      });
-    return true;
-  }
-  chrome.runtime.onMessage.addListener((message, _sender, sendResponse) => {
-    if (message.type === "GET_CURRENT_TAB") {
+  switch (message.type) {
+    case "FETCH_FOLDERS":
+      getFolders()
+        .then((res) => sendResponse({ folders: res.folders }))
+        .catch((error) => {
+          console.error("Error fetching folders:", error);
+          sendResponse({ error: "Failed to fetch folders." });
+        });
+      return true; // keep channel open
+
+    case "GET_CURRENT_TAB":
       chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
-        sendResponse({ tab: tabs[0] || null });
-      }); 
-      return true; 
-    }
-  });
-  if (message.type === "ADD_BOOKMARK") {
-    createBookmark(message.payload)
-      .then(() => {
-        sendResponse({ success: true });
-      })
-      .catch((error) => {
-        console.error("Error adding bookmark:", error);
-        sendResponse({ error: "Failed to add bookmark." });
+        const tab = tabs[0] ?? null;
+        sendResponse({ tab });
       });
-    return true;
+      return true; // keep channel open
+
+    case "ADD_BOOKMARK":
+      createBookmark(message.payload)
+        .then(() => sendResponse({ success: true }))
+        .catch((error) => {
+          console.error("Error adding bookmark:", error);
+          sendResponse({ error: "Failed to add bookmark." });
+        });
+      return true; // keep channel open
+
+    default:
+      return false;
   }
 });
