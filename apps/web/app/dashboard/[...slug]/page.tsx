@@ -71,7 +71,13 @@ export default function FolderPage() {
 
       fetchData();
     }
-  }, [currentFolder?.id, fetchSubfolders, fetchBookmarks]);
+  }, [
+    currentFolder?.id,
+    fetchSubfolders,
+    fetchBookmarks,
+    setLoadingBookmarkSkeleton,
+    setLoadingFolderSkeleton,
+  ]);
 
   return (
     <div className="m-5">
