@@ -67,6 +67,9 @@ importers:
       '@repo/types':
         specifier: workspace:*
         version: link:../../packages/types
+      '@types/node':
+        specifier: ^22.15.3
+        version: 22.18.1
       '@types/react':
         specifier: ^19.1.10
         version: 19.1.10
