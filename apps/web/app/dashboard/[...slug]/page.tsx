@@ -1,6 +1,6 @@
 "use client";
 import { useParams, useRouter } from "next/navigation";
-import { useEffect, useRef } from "react";
+import { useEffect, useMemo, useRef } from "react";
 import { Breadcrumbs } from "../../../components/Breadcrumbs";
 import { SearchBar } from "../../../components/ui/SearchBar";
 import { FolderModal } from "../../../components/FolderModal";
@@ -13,7 +13,9 @@ import { AddBookmarkButton } from "../../../components/AddBookmarkButton";
 export default function FolderPage() {
   const params = useParams();
   const slug = params.slug;
-  const slugArray = typeof slug === "string" ? [slug] : slug || [];
+  const slugArray = useMemo(() => {
+    return typeof slug === "string" ? [slug] : slug || [];
+  }, [slug]);
 
   const {
     resolveFolderPath,
@@ -23,7 +25,7 @@ export default function FolderPage() {
     folders,
     subfolders,
   } = useFolderStore();
-  const { fetchBookmarks, clearBookmarks, setLoading } = useBookmarkStore();
+  const { fetchBookmarks, clearBookmarks } = useBookmarkStore();
   const { setLoadingBookmarkSkeleton, setLoadingFolderSkeleton } = useUiStore();
   const lastPathRef = useRef<string>("");
   const router = useRouter();
