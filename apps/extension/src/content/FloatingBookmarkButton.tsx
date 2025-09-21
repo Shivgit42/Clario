@@ -1,9 +1,10 @@
 import { BookmarkIcon, Folder as FolderIcon, X } from "lucide-react";
 import { useState, useRef, useEffect } from "react";
-import type { Folder } from "@repo/types";
+import type { Folder, CreateBookmarkPayload } from "@repo/types";
 import { folderIcons } from "../components/ColorsAndIcons";
 import { Loading } from "./Loding";
-import type { CreateBookmarkPayload } from "@repo/types";
+import { sendBackgroundMessage } from "../popupHelpers"; // ✅ import helper
+import type { BackgroundResponse } from "../types";
 
 const styles = {
   floatingBtn: {
@@ -114,23 +115,20 @@ const styles = {
   },
 };
 
+type FloatingBookmarkButtonProps = {
+  folders: Folder[];
+  notification: { message: string; type: "success" | "error" } | null;
+  setNotification: React.Dispatch<
+    React.SetStateAction<{ message: string; type: "success" | "error" } | null>
+  >;
+  onAddBookmark?: (payload: any) => Promise<void>; // ✅ add this
+};
+
 export default function FloatingBookmarkButton({
   folders,
   notification,
   setNotification,
-}: {
-  folders: Folder[];
-  notification: {
-    message: string;
-    type: "success" | "error";
-  } | null;
-  setNotification: React.Dispatch<
-    React.SetStateAction<{
-      message: string;
-      type: "success" | "error";
-    } | null>
-  >;
-}) {
+}: FloatingBookmarkButtonProps) {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const buttonRef = useRef<HTMLButtonElement>(null);
   const dropdownRef = useRef<HTMLDivElement>(null);
@@ -186,32 +184,28 @@ export default function FloatingBookmarkButton({
       tags: [],
     };
 
-    chrome.runtime.sendMessage(
-      { type: "ADD_BOOKMARK", payload },
-      (response) => {
-        setLoading(false);
-        if (chrome.runtime.lastError) {
-          console.error("Error adding bookmark:", chrome.runtime.lastError);
-          setNotification({
-            message: "Failed to save bookmark.",
-            type: "error",
-          });
-          return;
-        }
-        if (response.success) {
-          setNotification({
-            message: `Bookmark saved to ${folderName}`,
-            type: "success",
-          });
-        } else if (response.error) {
-          setNotification({
-            message: response.error,
-            type: "error",
-          });
-        }
+    try {
+      const res: BackgroundResponse = await sendBackgroundMessage({
+        type: "ADD_BOOKMARK",
+        payload,
+      });
+
+      if ("success" in res && res.success) {
+        setNotification({
+          message: `Bookmark saved to ${folderName}`,
+          type: "success",
+        });
+      } else if ("error" in res) {
+        setNotification({ message: res.error, type: "error" });
       }
-    );
+    } catch (err) {
+      console.error("Error adding bookmark:", err);
+      setNotification({ message: "Failed to save bookmark.", type: "error" });
+    } finally {
+      setLoading(false);
+    }
   };
+
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
       if (event.key === "b" && (event.ctrlKey || event.metaKey)) {
