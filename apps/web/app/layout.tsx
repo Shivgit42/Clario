@@ -20,9 +20,8 @@ export const metadata: Metadata = {
   keywords: ["bookmark manager", "save links", "organize bookmarks", "Clario"],
   authors: [{ name: "Shivam Rana" }],
   icons: {
-    icon: "/favicon.ico",
+    icon: "/logo.svg",
   },
-  themeColor: "#ffffff",
   openGraph: {
     title: "Clario",
     description:
