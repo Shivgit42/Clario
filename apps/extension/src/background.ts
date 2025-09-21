@@ -1,4 +1,3 @@
-// apps/extension/src/background.ts
 import { getFolders, createBookmark } from "@repo/api-client";
 import type { BackgroundMessage, BackgroundResponse } from "./types";
 import type { User } from "@repo/store";

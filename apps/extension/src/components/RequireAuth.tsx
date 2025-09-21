@@ -1,11 +1,11 @@
-// apps/extension/src/components/RequireAuth.tsx
 import { useEffect, useState } from "react";
 import Loading from "./Loading";
 import { sendBackgroundMessage } from "../popupHelpers";
 import type { BackgroundResponse } from "../types";
+import type { User } from "@repo/store";
 
 export function RequireAuth({ children }: { children: React.ReactNode }) {
-  const [session, setSession] = useState<any | null>(null); // replace any with user type
+  const [session, setSession] = useState<User | null>(null);
   const [isPending, setIsPending] = useState(true);
 
   const apiUrl = import.meta.env.VITE_WEB_APP_URL;

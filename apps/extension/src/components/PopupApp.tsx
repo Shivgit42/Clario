@@ -1,4 +1,3 @@
-// apps/extension/src/components/PopupApp.tsx
 import { useEffect, useState } from "react";
 import FloatingBookmarkButton from "../content/FloatingBookmarkButton";
 import type { Folder } from "@repo/types";

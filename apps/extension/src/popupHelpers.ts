@@ -1,4 +1,3 @@
-// apps/extension/src/popupHelpers.ts
 import type { BackgroundMessage, BackgroundResponse } from "./types";
 
 export function sendBackgroundMessage<T extends BackgroundMessage>(

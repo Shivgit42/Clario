@@ -1,4 +1,3 @@
-// apps/extension/src/popup.tsx
 import { createRoot } from "react-dom/client";
 import { StrictMode } from "react";
 import PopupApp from "./components/PopupApp";

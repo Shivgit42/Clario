@@ -3,7 +3,7 @@ import { useState, useRef, useEffect } from "react";
 import type { Folder, CreateBookmarkPayload } from "@repo/types";
 import { folderIcons } from "../components/ColorsAndIcons";
 import { Loading } from "./Loding";
-import { sendBackgroundMessage } from "../popupHelpers"; // ✅ import helper
+import { sendBackgroundMessage } from "../popupHelpers";
 import type { BackgroundResponse } from "../types";
 
 const styles = {
@@ -121,7 +121,7 @@ type FloatingBookmarkButtonProps = {
   setNotification: React.Dispatch<
     React.SetStateAction<{ message: string; type: "success" | "error" } | null>
   >;
-  onAddBookmark?: (payload: any) => Promise<void>; // ✅ add this
+  onAddBookmark?: (payload: any) => Promise<void>;
 };
 
 export default function FloatingBookmarkButton({
