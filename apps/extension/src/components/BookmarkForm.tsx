@@ -19,7 +19,7 @@ export function BookmarkForm({
   const [error, setError] = useState<string | null>(null);
   const { addBookmark } = useBookmarkStore();
   const { fetchFolders, folders } = useFolderStore();
-  const { loading } = useUiStore();
+  const { loading, setLoading } = useUiStore();
 
   useEffect(() => {
     setTimeout(() => {
@@ -39,7 +39,7 @@ export function BookmarkForm({
     fetchFolders();
   }, [fetchFolders]);
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     if (activeTab === "url" && !url.trim()) {
@@ -81,19 +81,21 @@ export function BookmarkForm({
             folderId: selectedFolder,
             tags,
           };
-    addBookmark(payload)
-      .then(() => {
-        setTitle("");
-        setUrl("");
-        setNotes("");
-        setSelectedFolder("");
-        setTags([]);
-        setTagInput("");
-      })
-      .catch((error) => {
-        console.error("Error adding bookmark:", error);
-        setError("Failed to save bookmark. Please try again.");
-      });
+    try {
+      setLoading(true);
+      await addBookmark(payload);
+      setTitle("");
+      setUrl("");
+      setNotes("");
+      setSelectedFolder("");
+      setTags([]);
+      setTagInput("");
+    } catch (error) {
+      console.error("Error adding bookmark:", error);
+      setError("Failed to save bookmark. Please try again.");
+    } finally {
+      setLoading(false);
+    }
   };
 
   const handleTagKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
@@ -171,11 +173,12 @@ export function BookmarkForm({
           <option value="" disabled>
             Select a folder
           </option>
-          {folders && folders.map((folder) => (
-            <option key={folder.id} value={folder.id}>
-              {folder.name}
-            </option>
-          ))}
+          {folders &&
+            folders.map((folder) => (
+              <option key={folder.id} value={folder.id}>
+                {folder.name}
+              </option>
+            ))}
         </select>
         <label htmlFor="tags" className="block text-sm font-medium mt-2 mb-1">
           Tags (optional)
@@ -213,7 +216,7 @@ export function BookmarkForm({
           type="submit"
           className="mt-4 font-semibold bg-blue-500 text-white py-2 px-4 rounded w-full"
         >
-            {loading ? "Saving..." : "Save Bookmark"}
+          {loading ? "Saving..." : "Save Bookmark"}
         </button>
       </form>
     </div>
