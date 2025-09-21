@@ -1,8 +1,13 @@
-// src/popup.tsx
-import ReactDOM from 'react-dom/client'
+// apps/extension/src/popup.tsx
+import { createRoot } from "react-dom/client";
+import { StrictMode } from "react";
+import PopupApp from "./components/PopupApp";
 
-function App() {
-  return <div>Hello from React Extension 👋</div>
+const rootEl = document.getElementById("root");
+if (rootEl) {
+  createRoot(rootEl).render(
+    <StrictMode>
+      <PopupApp />
+    </StrictMode>
+  );
 }
-
-ReactDOM.createRoot(document.getElementById('root')!).render(<App />)
