@@ -50,7 +50,7 @@ export default function HowItWorks() {
     setTimeout(() => {
       setActiveIndex(index);
       setFade(false);
-    }, 250); // fade-out then swap
+    }, 250);
   };
 
   return (
