@@ -1,13 +1,25 @@
-import { authClient } from "../auth/auth-client";
+// apps/extension/src/components/RequireAuth.tsx
+import { useEffect, useState } from "react";
 import Loading from "./Loading";
+import { sendBackgroundMessage } from "../popupHelpers";
+import type { BackgroundResponse } from "../types";
 
 export function RequireAuth({ children }: { children: React.ReactNode }) {
-  const { data: session, isPending } = authClient.useSession();
+  const [session, setSession] = useState<any | null>(null); // replace any with user type
+  const [isPending, setIsPending] = useState(true);
+
   const apiUrl = import.meta.env.VITE_WEB_APP_URL;
 
-  if (isPending) {
-    return <Loading />;
-  }
+  useEffect(() => {
+    sendBackgroundMessage({ type: "GET_SESSION" })
+      .then((res: BackgroundResponse) => {
+        if ("user" in res) setSession(res.user);
+      })
+      .catch(() => setSession(null))
+      .finally(() => setIsPending(false));
+  }, []);
+
+  if (isPending) return <Loading />;
 
   if (!session) {
     return (
