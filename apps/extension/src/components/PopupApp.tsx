@@ -20,7 +20,7 @@ export default function PopupApp() {
         else if ("error" in res)
           setNotification({ message: res.error, type: "error" });
       })
-      .catch((err) =>
+      .catch(() =>
         setNotification({
           message: "Could not communicate with background script.",
           type: "error",
