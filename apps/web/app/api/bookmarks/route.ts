@@ -26,6 +26,7 @@ const urlBookmarkSchema = z.object({
     .array(z.string())
     .max(3, { message: "You can add up to 3 tags only." })
     .optional(),
+  previewImage: z.string().url().optional(),
 });
 
 const noteBookmarkSchema = z.object({
@@ -118,7 +119,8 @@ export async function POST(req: NextRequest) {
           title: title || previewData?.title || "Untitled",
           url,
           notes: null,
-          previewImage: previewData?.images?.[0] || null,
+          previewImage:
+            bookmarkData.previewImage || previewData?.images?.[0] || null,
           favicon: previewData?.favicons?.[0] || null,
           folderId,
           userId: session.user.id,
