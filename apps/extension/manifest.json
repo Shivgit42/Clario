@@ -17,6 +17,8 @@
       "48": "icons/icon-48.png"
     }
   },
+  "permissions": ["activeTab", "storage", "tabs"],
+  "host_permissions": [],
   "content_scripts": [
     {
       "matches": ["<all_urls>"],
@@ -26,8 +28,6 @@
   "background": {
     "service_worker": "src/background.ts"
   },
-  "permissions": ["tabs", "storage", "activeTab"],
-  "host_permissions": ["<all_urls>"],
   "externally_connectable": {
     "matches": ["http://localhost:3000/*", "https://clario.com/*"],
     "ids": ["*"]
