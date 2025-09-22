@@ -6,6 +6,7 @@ export interface UrlBookmarkPayload {
   url: string;
   folderId: string;
   tags?: string[];
+  previewImage?: string;
 }
 
 export interface NoteBookmarkPayload {
