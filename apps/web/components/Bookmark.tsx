@@ -60,7 +60,7 @@ export function Bookmark({ bookmark }: { bookmark: Bookmark }) {
                 : "/default-preview.png"
             }
             width={320}
-            height={120}
+            height={180}
             alt="Bookmark screenshot"
             className="w-full h-32 object-cover rounded-md mt-2"
           />
