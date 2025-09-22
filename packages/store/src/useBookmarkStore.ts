@@ -117,7 +117,8 @@ export const useBookmarkStore = create<BookmarkStore>((set) => ({
           payload = { ...payload, previewImage: thumbnail };
         }
       }
-      const { bookmark } = await createBookmark(bookmarkData);
+      console.log("Bookmark payload being sent:", payload);
+      const { bookmark } = await createBookmark(payload);
       const { currentFolder } = useFolderStore.getState();
 
       if (currentFolder?.id === bookmark.folderId) {
