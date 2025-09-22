@@ -35,6 +35,20 @@ interface BookmarkStore {
 
 const { setError, setLoadingBookmarkSkeleton } = useUiStore.getState();
 
+function detectType(url: string) {
+  if (url.includes("youtube.com") || url.includes("youtu.be")) return "youtube";
+  if (url.includes("twitter.com") && url.includes("/status/")) return "tweet";
+  if (url.match(/\.(jpeg|jpg|png|webp|gif)$/)) return "image";
+  if (url.endsWith(".svg")) return "svg";
+  return "url";
+}
+
+function getYoutubeThumbnail(url: string): string | null {
+  const regex = /(?:youtube\.com\/.*v=|youtu\.be\/)([a-zA-Z0-9_-]{11})/;
+  const match = url.match(regex);
+  return match ? `https://img.youtube.com/vi/${match[1]}/hqdefault.jpg` : null;
+}
+
 export const useBookmarkStore = create<BookmarkStore>((set) => ({
   bookmarks: [],
   notes: null,
@@ -95,6 +109,14 @@ export const useBookmarkStore = create<BookmarkStore>((set) => ({
   addBookmark: async (bookmarkData) => {
     set({ loading: true });
     try {
+      let payload = { ...bookmarkData };
+
+      if (payload.type === "url" && detectType(payload.url) === "youtube") {
+        const thumbnail = getYoutubeThumbnail(payload.url);
+        if (thumbnail) {
+          payload = { ...payload, previewImage: thumbnail };
+        }
+      }
       const { bookmark } = await createBookmark(bookmarkData);
       const { currentFolder } = useFolderStore.getState();
 
