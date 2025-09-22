@@ -2,6 +2,6 @@ import axios from "axios";
 import { API_URL } from "./config";
 
 export const apiClient = axios.create({
-  baseURL: API_URL,
+  baseURL: API_URL || "http://localhost:3000/api",
   withCredentials: true,
 });
