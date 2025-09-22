@@ -2,7 +2,6 @@ import { prismaClient } from "@repo/db";
 import { NextResponse } from "next/server";
 import { requireAuth } from "../../../../lib/middleware";
 
-
 export async function GET() {
   try {
     const session = await requireAuth();
