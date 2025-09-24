@@ -72,7 +72,6 @@ export function BookmarkModal({
       selectedFolder || currentFolderId || folders?.[0]?.id;
 
     if (!chosenFolderId) {
-      // very defensive: should not happen if you always have folders, but safe guard
       toast.error("Please select a folder.");
       return;
     }
