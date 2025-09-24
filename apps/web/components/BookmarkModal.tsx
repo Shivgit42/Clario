@@ -41,9 +41,6 @@ export function BookmarkModal({
   useEffect(() => {
     if (!folders || folders.length === 0) return;
 
-    // prefer explicit parentFolder (if parentFolder is an id),
-    // otherwise prefer the current folder from the store,
-    // otherwise fallback to first folder
     const initial =
       (parentFolder && parentFolder) || currentFolderId || folders[0]?.id || "";
     setSelectedFolder(initial);
@@ -111,7 +108,7 @@ export function BookmarkModal({
   function disambiguator(folder: Folder) {
     if (!nameCounts.get(folder.name) || nameCounts.get(folder.name) === 1)
       return "";
-    // if slug started with name- remove that prefix
+
     const suffix = folder.slug?.startsWith(`${folder.name}-`)
       ? folder.slug.slice(folder.name.length + 1)
       : folder.slug?.split("-").pop();
