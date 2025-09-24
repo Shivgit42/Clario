@@ -1,6 +1,6 @@
 import { Loader2, X } from "lucide-react";
 import { useUiStore, useBookmarkStore, useFolderStore } from "@repo/store";
-import { MouseEventHandler, useEffect, useState } from "react";
+import { MouseEventHandler, useEffect, useMemo, useState } from "react";
 import { toast } from "sonner";
 import type { CreateBookmarkPayload, Folder } from "@repo/types";
 
@@ -102,6 +102,22 @@ export function BookmarkModal({
     );
   };
 
+  const nameCounts = useMemo(() => {
+    const map = new Map<string, number>();
+    folders?.forEach((f) => map.set(f.name, (map.get(f.name) || 0) + 1));
+    return map;
+  }, [folders]);
+
+  function disambiguator(folder: Folder) {
+    if (!nameCounts.get(folder.name) || nameCounts.get(folder.name) === 1)
+      return "";
+    // if slug started with name- remove that prefix
+    const suffix = folder.slug?.startsWith(`${folder.name}-`)
+      ? folder.slug.slice(folder.name.length + 1)
+      : folder.slug?.split("-").pop();
+    return suffix ? ` — ${suffix.slice(0, 6)}` : ` (${folder.id.slice(0, 6)})`;
+  }
+
   return (
     <>
       {showBookmarkModal && (
@@ -162,11 +178,14 @@ export function BookmarkModal({
               onChange={(e) => setSelectedFolder(e.target.value)}
             >
               {folders?.map((folder) => (
-                <option key={folder.id} value={folder.id}>
-                  {folder.name}{" "}
-                  {folder.slug
-                    ? `— ${folder.slug}`
-                    : `(${folder.id.slice(0, 6)})`}
+                <option
+                  key={folder.id}
+                  value={folder.id}
+                  title={folder.slug || folder.id}
+                >
+                  {folder.name}
+                  {disambiguator(folder)}
+                  {folder._count ? ` (${folder._count.bookmarks})` : ""}
                 </option>
               ))}
             </select>
