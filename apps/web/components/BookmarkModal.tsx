@@ -91,7 +91,7 @@ export function BookmarkModal({
           setNotes("");
           setTags([]);
           setTagInput("");
-          setSelectedFolder("");
+          setSelectedFolder(currentFolderId || folders?.[0]?.id || "");
           setType("url");
         }
       }),
