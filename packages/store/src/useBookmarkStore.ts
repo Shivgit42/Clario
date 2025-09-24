@@ -118,8 +118,13 @@ export const useBookmarkStore = create<BookmarkStore>((set) => ({
         }
       }
 
-      console.log("Bookmark payload being sent:", payload);
+      console.log("createBookmark payload:", payload);
       const { bookmark } = await createBookmark(payload);
+      console.log("createBookmark response bookmark:", bookmark);
+      console.log(
+        "currentFolder (from useFolderStore):",
+        useFolderStore.getState().currentFolder
+      );
 
       set((state) => {
         // if user is currently inside the same folder, append it
