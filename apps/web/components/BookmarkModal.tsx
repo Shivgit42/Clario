@@ -1,5 +1,5 @@
 import { Loader2, X } from "lucide-react";
-import { useUiStore, useBookmarkStore } from "@repo/store";
+import { useUiStore, useBookmarkStore, useFolderStore } from "@repo/store";
 import { MouseEventHandler, useEffect, useState } from "react";
 import { toast } from "sonner";
 import type { CreateBookmarkPayload, Folder } from "@repo/types";
@@ -36,13 +36,18 @@ export function BookmarkModal({
     }
   };
 
+  const currentFolderId = useFolderStore.getState().currentFolder?.id;
+
   useEffect(() => {
-    if (folders && folders.length > 0) {
-      if (!selectedFolder && folders.length > 0) {
-        setSelectedFolder(parentFolder || folders[0]?.id || "");
-      }
-    }
-  }, [folders, parentFolder, selectedFolder]);
+    if (!folders || folders.length === 0) return;
+
+    // prefer explicit parentFolder (if parentFolder is an id),
+    // otherwise prefer the current folder from the store,
+    // otherwise fallback to first folder
+    const initial =
+      (parentFolder && parentFolder) || currentFolderId || folders[0]?.id || "";
+    setSelectedFolder(initial);
+  }, [folders, parentFolder, currentFolderId, showBookmarkModal]);
 
   const handleSubmit: MouseEventHandler<HTMLButtonElement> = (e) => {
     e.preventDefault();
@@ -60,6 +65,16 @@ export function BookmarkModal({
         toast.error("Notes cannot exceed 2000 characters.");
         return;
       }
+    }
+
+    const currentFolderId = useFolderStore.getState().currentFolder?.id;
+    const chosenFolderId =
+      selectedFolder || currentFolderId || folders?.[0]?.id;
+
+    if (!chosenFolderId) {
+      // very defensive: should not happen if you always have folders, but safe guard
+      toast.error("Please select a folder.");
+      return;
     }
 
     const payload: CreateBookmarkPayload =
@@ -149,7 +164,10 @@ export function BookmarkModal({
             >
               {folders?.map((folder) => (
                 <option key={folder.id} value={folder.id}>
-                  {folder.name}
+                  {folder.name}{" "}
+                  {folder.slug
+                    ? `— ${folder.slug}`
+                    : `(${folder.id.slice(0, 6)})`}
                 </option>
               ))}
             </select>

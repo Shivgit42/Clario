@@ -113,40 +113,28 @@ export const useBookmarkStore = create<BookmarkStore>((set) => ({
 
       if (payload.type === "url" && detectType(payload.url) === "youtube") {
         const thumbnail = getYoutubeThumbnail(payload.url);
-        if (thumbnail) {
-          payload = { ...payload, previewImage: thumbnail };
-        }
+        if (thumbnail) payload.previewImage = thumbnail;
       }
 
       console.log("createBookmark payload:", payload);
       const { bookmark } = await createBookmark(payload);
-      console.log("createBookmark response bookmark:", bookmark);
-      console.log(
-        "currentFolder (from useFolderStore):",
-        useFolderStore.getState().currentFolder
-      );
+      console.log("createBookmark response:", bookmark);
 
-      set((state) => {
-        // if user is currently inside the same folder, append it
-        if (
-          state.bookmarks &&
-          bookmark.folderId === useFolderStore.getState().currentFolder?.id
-        ) {
-          return { bookmarks: [...state.bookmarks, bookmark] };
-        }
-        return {};
-      });
+      const currentFolderId = useFolderStore.getState().currentFolder?.id;
 
-      // update folders + subfolders
+      // append to visible list only if viewing the same folder
+      if (currentFolderId === bookmark.folderId) {
+        set((state) => ({ bookmarks: [...(state.bookmarks || []), bookmark] }));
+      }
+
+      // update folder counts safely
       useFolderStore.setState((state: any) => {
-        const updateFolderCount = (folders: any[]) =>
+        const updateFolderCount = (folders: any[] = []) =>
           folders.map((folder: any) =>
             folder.id === bookmark.folderId
               ? {
                   ...folder,
-                  _count: {
-                    bookmarks: (folder._count?.bookmarks || 0) + 1,
-                  },
+                  _count: { bookmarks: (folder._count?.bookmarks || 0) + 1 },
                 }
               : folder
           );
@@ -155,7 +143,7 @@ export const useBookmarkStore = create<BookmarkStore>((set) => ({
           folders: updateFolderCount(state.folders),
           subfolders: state.subfolders
             ? updateFolderCount(state.subfolders)
-            : [],
+            : state.subfolders,
         };
       });
 
