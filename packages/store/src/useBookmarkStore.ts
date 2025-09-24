@@ -116,18 +116,14 @@ export const useBookmarkStore = create<BookmarkStore>((set) => ({
         if (thumbnail) payload.previewImage = thumbnail;
       }
 
-      console.log("createBookmark payload:", payload);
       const { bookmark } = await createBookmark(payload);
-      console.log("createBookmark response:", bookmark);
 
       const currentFolderId = useFolderStore.getState().currentFolder?.id;
 
-      // append to visible list only if viewing the same folder
       if (currentFolderId === bookmark.folderId) {
         set((state) => ({ bookmarks: [...(state.bookmarks || []), bookmark] }));
       }
 
-      // update folder counts safely
       useFolderStore.setState((state: any) => {
         const updateFolderCount = (folders: any[] = []) =>
           folders.map((folder: any) =>
