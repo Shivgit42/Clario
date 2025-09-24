@@ -19,7 +19,7 @@ export function BookmarkForm({
   const [error, setError] = useState<string | null>(null);
   const { addBookmark } = useBookmarkStore();
   const { fetchFolders, folders } = useFolderStore();
-  const { loading, setLoading } = useUiStore();
+  const { loading } = useUiStore();
 
   useEffect(() => {
     setTimeout(() => {
@@ -39,7 +39,7 @@ export function BookmarkForm({
     fetchFolders();
   }, [fetchFolders]);
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     if (activeTab === "url" && !url.trim()) {
@@ -81,21 +81,19 @@ export function BookmarkForm({
             folderId: selectedFolder,
             tags,
           };
-    try {
-      setLoading(true);
-      await addBookmark(payload);
-      setTitle("");
-      setUrl("");
-      setNotes("");
-      setSelectedFolder("");
-      setTags([]);
-      setTagInput("");
-    } catch (error) {
-      console.error("Error adding bookmark:", error);
-      setError("Failed to save bookmark. Please try again.");
-    } finally {
-      setLoading(false);
-    }
+    addBookmark(payload)
+      .then(() => {
+        setTitle("");
+        setUrl("");
+        setNotes("");
+        setSelectedFolder("");
+        setTags([]);
+        setTagInput("");
+      })
+      .catch((error) => {
+        console.error("Error adding bookmark:", error);
+        setError("Failed to save bookmark. Please try again.");
+      });
   };
 
   const handleTagKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {

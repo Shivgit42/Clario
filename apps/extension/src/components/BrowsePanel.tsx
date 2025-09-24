@@ -5,7 +5,7 @@ import Loading from "./Loading";
 
 export function BrowsePanel() {
   const { recentBookmarks, getRecentBookmarks } = useBookmarkStore();
-  const {loading} = useUiStore();
+  const { loading } = useUiStore();
   const limit = 7;
   const apiUrl = import.meta.env.VITE_WEB_APP_URL;
 
@@ -26,11 +26,9 @@ export function BrowsePanel() {
   return (
     <div className="mt-4 px-4 mb-5">
       <h1 className="text-lg font-semibold mb-4">Recent Bookmarks</h1>
-      {
-        recentBookmarks && recentBookmarks.length === 0 && (
-          <p className="text-gray-500 text-center">No recent bookmarks found.</p>
-        )
-      }
+      {recentBookmarks && recentBookmarks.length === 0 && (
+        <p className="text-gray-500 text-center">No recent bookmarks found.</p>
+      )}
       {recentBookmarks && recentBookmarks.length > 0 && (
         <ul className="space-y-3">
           {recentBookmarks.map((bookmark) => {

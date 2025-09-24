@@ -16,16 +16,17 @@ export function QuickSavePanel() {
 
   useEffect(() => {
     chrome.runtime.sendMessage({ type: "GET_CURRENT_TAB" }, (response) => {
-      if (response.tab) {
+      if (chrome.runtime.lastError) {
+        console.error("Error getting current tab:", chrome.runtime.lastError);
+        return;
+      }
+
+      if (response?.tab) {
         setTabInfo({
           title: response.tab.title || "Untitled",
           url: response.tab.url || "No URL available",
           favIconUrl: response.tab.favIconUrl || "/default-favicon.png",
         });
-      }
-
-      if (chrome.runtime.lastError) {
-        console.error("Error getting current tab:", chrome.runtime.lastError);
       }
     });
   }, []);

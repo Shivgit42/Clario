@@ -66,7 +66,6 @@ export function SearchBar() {
         </button>
       ) : null}
       {open && !error && <SearchResults />}
-
     </div>
   );
 }
