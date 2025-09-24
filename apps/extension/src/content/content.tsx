@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import FloatingBookmarkButton from "./FloatingBookmarkButton";
-import type { Folder } from "@repo/types";
-import { sendBackgroundMessage } from "../popupHelpers";
+import type { Folder } from "@prisma/client";
 
 export function ContentPage() {
   const [folders, setFolders] = useState<Folder[]>([]);
@@ -11,19 +10,26 @@ export function ContentPage() {
   } | null>(null);
 
   useEffect(() => {
-    sendBackgroundMessage({ type: "FETCH_FOLDERS" })
-      .then((res) => {
-        if ("folders" in res) setFolders(res.folders);
-        else if ("error" in res)
-          setNotification({ message: res.error, type: "error" });
-      })
-      .catch((err) => {
-        console.error("Background error:", err);
+    chrome.runtime.sendMessage({ type: "FETCH_FOLDERS" }, (response) => {
+      if (chrome.runtime.lastError) {
+        console.error("Runtime error:", chrome.runtime.lastError.message);
         setNotification({
           message: "Could not communicate with background script.",
           type: "error",
         });
-      });
+        return;
+      }
+
+      if (response?.folders) {
+        setFolders(response.folders);
+      } else if (response?.error) {
+        console.error("Background error:", response.error);
+        setNotification({
+          message: response.error,
+          type: "error",
+        });
+      }
+    });
   }, []);
 
   return (
