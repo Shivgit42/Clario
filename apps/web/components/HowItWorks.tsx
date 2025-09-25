@@ -33,7 +33,6 @@ const steps = [
 
 export default function HowItWorks() {
   const [activeIndex, setActiveIndex] = useState(0);
-  const [fade, setFade] = useState(false);
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
@@ -46,11 +45,7 @@ export default function HowItWorks() {
 
   const handleStepChange = (index: number) => {
     if (index === activeIndex) return;
-    setFade(true);
-    setTimeout(() => {
-      setActiveIndex(index);
-      setFade(false);
-    }, 250);
+    setActiveIndex(index);
   };
 
   return (
