@@ -16,18 +16,18 @@ const steps = [
     description:
       "Capture links or quick notes from any page using the floating button or popup.",
     videoSrc:
-      "https://res.cloudinary.com/dc0r1vikq/video/upload/v1755950769/add_to_bookmark_720p_uuqtzw.mp4",
+      "https://res.cloudinary.com/dcmziintu/video/upload/v1758777278/VN20250925_101219_x9wieg.mp4",
     poster:
-      "https://res.cloudinary.com/dc0r1vikq/video/upload/f_auto,q_auto/v1755614339/Add_bookmarks_cmp_u7fswn.jpg",
+      "https://res.cloudinary.com/dcmziintu/video/upload/v1758777278/VN20250925_101219_x9wieg.mp4",
   },
   {
     title: "Organize & Search Effortlessly",
     description:
       "Your dashboard keeps everything in one place. Organize with folders and find things instantly.",
     videoSrc:
-      "https://res.cloudinary.com/dc0r1vikq/video/upload/v1755950775/organize_and_search_720p_kaagz8.mp4",
+      "https://res.cloudinary.com/dcmziintu/video/upload/v1758777694/VN20250925_102059_gtq7he.mp4",
     poster:
-      "https://res.cloudinary.com/dc0r1vikq/video/upload/f_auto,q_auto/v1755614335/search_and_organize_cmp_vj1wsf.jpg",
+      "https://res.cloudinary.com/dcmziintu/image/upload/v1758777797/Screenshot_458_wxfmy1.png",
   },
 ];
 
@@ -105,19 +105,21 @@ export default function HowItWorks() {
         {/* Right side: Active video */}
         <div className="flex-1 flex items-center justify-center">
           <div className="w-full aspect-video rounded-xl overflow-hidden shadow-lg border border-gray-200 dark:border-gray-700 relative">
-            <video
-              key={steps[activeIndex]!.videoSrc} // force reload on change
-              src={steps[activeIndex]!.videoSrc}
-              poster={steps[activeIndex]!.poster}
-              autoPlay
-              muted
-              loop
-              playsInline
-              preload="metadata"
-              className={`w-full h-full object-cover absolute inset-0 transition-opacity duration-300 ${
-                fade ? "opacity-0" : "opacity-100"
-              }`}
-            />
+            {steps.map((step, index) => (
+              <video
+                key={index}
+                src={step.videoSrc}
+                poster={step.poster}
+                autoPlay
+                muted
+                loop
+                playsInline
+                preload="auto"
+                className={`w-full h-full object-cover absolute inset-0 transition-opacity duration-500 ${
+                  activeIndex === index ? "opacity-100" : "opacity-0"
+                }`}
+              />
+            ))}
           </div>
         </div>
       </div>
