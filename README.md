@@ -1,4 +1,4 @@
-# <img src="apps/web/public/logo.svg" width="35" height="35" style="vertical-align: middle;"> Clario
+# Clario
 
 **Clario** is a smart, modern bookmarking platform that combines a **Chrome Extension** and a **Next.js Dashboard** to make saving, organizing, and retrieving content effortless.
 
