@@ -28,7 +28,7 @@ Whether you’re browsing and want to save a link instantly, or sitting down to 
 
 ---
 
-## 🛠️ Tech Stack
+## 💻 Tech Stack
 
 - **Extension**: Vite + React + TypeScript
 - **Web Dashboard**: Next.js + Tailwind CSS + TypeScript
