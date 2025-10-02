@@ -38,12 +38,16 @@ export default function Hero() {
           Open Dashboard
         </Link>
         <a
-          href="https://chromewebstore.google.com/detail/clario"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="px-5 py-3 rounded-xl shadow-md text-sm md:text-base font-semibold bg-black text-white dark:bg-white dark:text-black hover:opacity-90 transition"
+          href="#"
+          className="group relative px-5 py-3 rounded-xl shadow-md text-sm md:text-base font-semibold bg-black text-white dark:bg-white dark:text-black transition duration-300 overflow-hidden"
+          onClick={(e) => e.preventDefault()}
         >
-          Install Extension
+          <span className="block transition-all duration-300 group-hover:-translate-y-10">
+            Install Extension
+          </span>
+          <span className="absolute left-0 right-0 top-1/2 -translate-y-1/2 opacity-0 transition-all duration-300 group-hover:opacity-100">
+            Coming Soon
+          </span>
         </a>
       </div>
 
