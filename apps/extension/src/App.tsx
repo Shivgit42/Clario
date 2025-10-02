@@ -6,13 +6,11 @@ import { QuickSavePanel } from "./components/QuickSavePanel";
 import { BrowsePanel } from "./components/BrowsePanel";
 import { RequireAuth } from "./components/RequireAuth";
 import { authClient } from "./auth/auth-client";
-import { SettingsPanel } from "./components/SettingsPanel";
-import { Settings } from "lucide-react";
 
 function App() {
-  const [activeTab, setActiveTab] = useState<
-    "quick-save" | "browse" | "settings"
-  >("quick-save");
+  const [activeTab, setActiveTab] = useState<"quick-save" | "browse">(
+    "quick-save"
+  );
   const { data: session } = authClient.useSession();
   const apiUrl = import.meta.env.VITE_WEB_APP_URL;
 
@@ -31,13 +29,6 @@ function App() {
             </a>
             <div className="flex items-center space-x-2">
               <ThemeToggle />
-              <button
-                className="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors cursor-pointer"
-                onClick={() => setActiveTab("settings")}
-                title="Settings"
-              >
-                <Settings size={18} />
-              </button>
               {session && (
                 <a
                   href={`${apiUrl}/dashboard/profile`}
@@ -45,7 +36,7 @@ function App() {
                   rel="noopener noreferrer"
                 >
                   <img
-                    src={session.user.image || "/default-avatar.png"}
+                    src={session.user?.image || "/default-avatar.png"}
                     alt="User Avatar"
                     className="size-7 rounded-full hover:opacity-80 transition-opacity cursor-pointer"
                   />
@@ -59,7 +50,6 @@ function App() {
         <div className="flex-1 overflow-y-auto">
           {activeTab === "quick-save" && <QuickSavePanel />}
           {activeTab === "browse" && <BrowsePanel />}
-          {activeTab === "settings" && <SettingsPanel />}
         </div>
       </RequireAuth>
     </div>
