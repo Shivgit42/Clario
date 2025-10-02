@@ -164,16 +164,24 @@ export function BookmarkForm({
         </label>
         <select
           id="folder"
-          className="border border-gray-300 dark:border-gray-600 rounded-md p-2 w-full appearance-none"
+          className="border border-gray-300 dark:border-gray-600 rounded-md p-2 w-full appearance-none bg-white dark:bg-[#2A2A2A] text-gray-900 dark:text-gray-100"
           value={selectedFolder}
           onChange={(e) => setSelectedFolder(e.target.value)}
         >
-          <option value="" disabled>
+          <option
+            value=""
+            disabled
+            className="bg-white dark:bg-[#2A2A2A] text-gray-900 dark:text-gray-100"
+          >
             Select a folder
           </option>
           {folders &&
             folders.map((folder) => (
-              <option key={folder.id} value={folder.id}>
+              <option
+                key={folder.id}
+                value={folder.id}
+                className="bg-white dark:bg-[#2A2A2A] text-gray-900 dark:text-gray-100"
+              >
                 {folder.name}
               </option>
             ))}
