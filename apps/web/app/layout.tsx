@@ -55,7 +55,11 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body className="bg-[#F5F5F4] min-h-screen">
-        <ThemeProvider attribute="class" enableSystem defaultTheme="system">
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="dark"
+          enableSystem={false}
+        >
           <Toaster richColors={true} position="top-right" />
           <div
             className={`${plusJakartaSans.className} ${shantellSans.variable} overflow-hidden bg-[#F5F5F4] text-[#1F1F1F] dark:bg-[#202020] dark:text-white min-h-screen`}
