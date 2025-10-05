@@ -7,8 +7,9 @@ const steps = [
     description:
       "Get started in one click. Install the extension and sign in to sync your bookmarks and notes.",
     videoSrc:
-      "https://res.cloudinary.com/dcmziintu/video/upload/v1759391511/1000169778-vmake_tigenm.mp4",
-    poster: "",
+      "https://res.cloudinary.com/dcmziintu/video/upload/v1759690983/VN20251006_002914_br03ml.mp4",
+    poster:
+      "https://res.cloudinary.com/dcmziintu/image/upload/v1759691291/Screenshot_2025-10-06_003733_phdaux.png",
   },
   {
     title: "Save Anything Instantly",
