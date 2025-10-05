@@ -25,14 +25,12 @@ export default function NavBar() {
             Login
           </Link>
           <a
-            href="#"
-            onClick={(e) => e.preventDefault()}
-            className="relative text-xs sm:text-sm px-4 py-2 rounded-xl bg-gradient-to-r from-[#ddba0e] via-[#facc15] to-white text-black font-medium shadow hover:opacity-90 transition"
+            href="https://chromewebstore.google.com/detail/ponmpddnllnnbagafncnlofljhmnhdgd"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-xs sm:text-sm px-4 py-2 rounded-xl bg-gradient-to-r from-[#ddba0e] via-[#facc15] to-white text-black font-medium shadow hover:opacity-90 transition"
           >
             Add to Chrome
-            <span className="absolute -top-3 right-1 text-[10px] px-2 py-0.5 rounded-md bg-gradient-to-r from-purple-500 to-pink-500 text-white shadow">
-              Coming Soon
-            </span>
           </a>
           <LogIn className="sm:hidden size-5 text-gray-600 dark:text-gray-300" />
         </div>
