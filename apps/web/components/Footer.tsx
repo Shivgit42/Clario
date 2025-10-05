@@ -54,7 +54,7 @@ export default function Footer() {
               Privacy Policy
             </Link>
             <a
-              href="https://chromewebstore.google.com/detail/clario"
+              href="https://chromewebstore.google.com/detail/clario/ponmpddnllnnbagafncnlofljhmnhdgd"
               className="block text-gray-600 dark:text-gray-400 hover:text-yellow-400"
               target="_blank"
               rel="noopener noreferrer"

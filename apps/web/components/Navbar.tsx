@@ -25,7 +25,7 @@ export default function NavBar() {
             Login
           </Link>
           <a
-            href="https://chromewebstore.google.com/detail/ponmpddnllnnbagafncnlofljhmnhdgd"
+            href="https://chromewebstore.google.com/detail/clario/ponmpddnllnnbagafncnlofljhmnhdgd"
             target="_blank"
             rel="noopener noreferrer"
             className="text-xs sm:text-sm px-4 py-2 rounded-xl bg-gradient-to-r from-[#ddba0e] via-[#facc15] to-white text-black font-medium shadow hover:opacity-90 transition"

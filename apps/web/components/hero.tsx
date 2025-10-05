@@ -38,7 +38,7 @@ export default function Hero() {
           Open Dashboard
         </Link>
         <a
-          href="https://chromewebstore.google.com/detail/ponmpddnllnnbagafncnlofljhmnhdgd"
+          href="https://chromewebstore.google.com/detail/clario/ponmpddnllnnbagafncnlofljhmnhdgd"
           target="_blank"
           rel="noopener noreferrer"
           className="px-5 py-3 rounded-xl shadow-md text-sm md:text-base font-semibold bg-black text-white dark:bg-white dark:text-black hover:opacity-90 transition"
