@@ -7,8 +7,8 @@ export default function Footer() {
   return (
     <footer className="bg-gray-50 dark:bg-[#111111] border-t border-gray-200 dark:border-gray-800 mt-20">
       <div className="max-w-7xl mx-auto px-6 py-12 flex flex-col md:flex-row justify-between gap-10">
-        {/* Brand */}
         <div>
+          {/* Brand Logo */}
           <div className="flex items-center gap-2">
             <Logo />
             <h2 className="text-lg font-bold text-gray-900 dark:text-white">
