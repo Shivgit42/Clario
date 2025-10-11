@@ -49,15 +49,43 @@ const bookmarkSchema = z.discriminatedUnion("type", [
 
 async function getTwitterPreview(url: string): Promise<string | null> {
   try {
-    const oembedUrl = `https://publish.twitter.com/oembed?url=${encodeURIComponent(url)}`;
+    console.log("🐦 Fetching Twitter preview for:", url);
+
+    // Extract tweet ID from URL
+    const tweetIdMatch = url.match(/status\/(\d+)/);
+    if (!tweetIdMatch) {
+      console.log("❌ Could not extract tweet ID");
+      return null;
+    }
+
+    const tweetId = tweetIdMatch[1];
+
+    // Try oEmbed API first
+    const oembedUrl = `https://publish.twitter.com/oembed?url=${encodeURIComponent(url)}&omit_script=true`;
     const response = await fetch(oembedUrl);
-    if (!response.ok) return null;
+
+    console.log("📊 Twitter API response status:", response.status);
+
+    if (!response.ok) {
+      console.log("❌ Twitter API returned non-ok status");
+      return null;
+    }
 
     const data = await response.json();
-    const imgMatch = data.html?.match(/src="([^"]+)"/);
-    return imgMatch ? imgMatch[1] : null;
+    console.log("📦 Twitter oEmbed data:", data);
+
+    // Try to extract profile image from the author_url
+    if (data.author_url) {
+      const username = data.author_url.split("/").pop();
+      // Use Twitter's avatar API endpoint
+      const avatarUrl = `https://unavatar.io/twitter/${username}`;
+      console.log("🖼️ Using avatar thumbnail:", avatarUrl);
+      return avatarUrl;
+    }
+
+    return null;
   } catch (error) {
-    console.error("Error fetching Twitter preview:", error);
+    console.error("❌ Error fetching Twitter preview:", error);
     return null;
   }
 }
