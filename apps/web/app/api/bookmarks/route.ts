@@ -31,7 +31,7 @@ const urlBookmarkSchema = z.object({
 
 const noteBookmarkSchema = z.object({
   type: z.literal("notes"),
-  title: z.string().max(255),
+  title: z.string().max(255), // now required
   notes: z
     .string()
     .max(2000, { message: "Notes cannot exceed 2000 characters." }),
@@ -46,49 +46,6 @@ const bookmarkSchema = z.discriminatedUnion("type", [
   urlBookmarkSchema,
   noteBookmarkSchema,
 ]);
-
-async function getTwitterPreview(url: string): Promise<string | null> {
-  try {
-    console.log("🐦 Fetching Twitter preview for:", url);
-
-    // Extract tweet ID from URL
-    const tweetIdMatch = url.match(/status\/(\d+)/);
-    if (!tweetIdMatch) {
-      console.log("❌ Could not extract tweet ID");
-      return null;
-    }
-
-    const tweetId = tweetIdMatch[1];
-
-    // Try oEmbed API first
-    const oembedUrl = `https://publish.twitter.com/oembed?url=${encodeURIComponent(url)}&omit_script=true`;
-    const response = await fetch(oembedUrl);
-
-    console.log("📊 Twitter API response status:", response.status);
-
-    if (!response.ok) {
-      console.log("❌ Twitter API returned non-ok status");
-      return null;
-    }
-
-    const data = await response.json();
-    console.log("📦 Twitter oEmbed data:", data);
-
-    // Try to extract profile image from the author_url
-    if (data.author_url) {
-      const username = data.author_url.split("/").pop();
-      // Use Twitter's avatar API endpoint
-      const avatarUrl = `https://unavatar.io/twitter/${username}`;
-      console.log("🖼️ Using avatar thumbnail:", avatarUrl);
-      return avatarUrl;
-    }
-
-    return null;
-  } catch (error) {
-    console.error("❌ Error fetching Twitter preview:", error);
-    return null;
-  }
-}
 
 export async function GET(req: NextRequest) {
   try {
@@ -146,24 +103,15 @@ export async function POST(req: NextRequest) {
 
     const bookmarkData = validation.data;
     let createdBookmark;
+    let previewData: previewDataType | null = null;
 
     if (bookmarkData.type === "url") {
       const { url, title, folderId, tags } = bookmarkData;
 
-      const isTwitterUrl =
-        (url.includes("twitter.com") || url.includes("x.com")) &&
-        url.includes("/status/");
-
-      const [previewData, twitterPreview]: [
-        previewDataType | null,
-        string | null,
-      ] = await Promise.all([
-        getLinkPreview(url).catch((error) => {
-          console.error("Error fetching link preview:", error);
-          return null;
-        }) as Promise<previewDataType | null>,
-        isTwitterUrl ? getTwitterPreview(url) : Promise.resolve(null),
-      ]);
+      previewData = await getLinkPreview(url).catch((error) => {
+        console.error("Error fetching link preview:", error);
+        return null;
+      });
 
       createdBookmark = await prismaClient.bookmark.create({
         data: {
@@ -172,10 +120,7 @@ export async function POST(req: NextRequest) {
           url,
           notes: null,
           previewImage:
-            bookmarkData.previewImage ||
-            twitterPreview ||
-            previewData?.images?.[0] ||
-            null,
+            bookmarkData.previewImage || previewData?.images?.[0] || null,
           favicon: previewData?.favicons?.[0] || null,
           folderId,
           userId: session.user.id,
