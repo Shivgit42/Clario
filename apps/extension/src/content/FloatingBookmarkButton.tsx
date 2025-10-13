@@ -12,7 +12,8 @@ const styles = {
     right: 20,
     width: 42,
     height: 42,
-    background: "linear-gradient(to bottom right, #3b82f6, #9333ea)",
+    background:
+      "linear-gradient(135deg, #fbbf24 0%, #f59e0b 50%, #d97706 100%)",
     borderRadius: "50%",
     display: "flex",
     alignItems: "center",
