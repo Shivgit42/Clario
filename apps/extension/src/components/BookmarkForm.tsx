@@ -1,6 +1,6 @@
-import { useBookmarkStore, useFolderStore, useUiStore } from "@repo/store";
+import { useBookmarkStore, useFolderStore } from "@repo/store";
 import type { CreateBookmarkPayload } from "@repo/types";
-import { X } from "lucide-react";
+import { Check, X } from "lucide-react";
 import { useEffect, useState } from "react";
 
 export function BookmarkForm({
@@ -17,15 +17,27 @@ export function BookmarkForm({
   const [tags, setTags] = useState<string[]>([]);
   const [tagInput, setTagInput] = useState("");
   const [error, setError] = useState<string | null>(null);
-  const { addBookmark } = useBookmarkStore();
+  const [success, setSuccess] = useState<string | null>(null);
+  const { addBookmark, loading } = useBookmarkStore();
   const { fetchFolders, folders } = useFolderStore();
-  const { loading } = useUiStore();
 
   useEffect(() => {
-    setTimeout(() => {
-      setError(null);
-    }, 3000);
+    if (error) {
+      const timer = setTimeout(() => {
+        setError(null);
+      }, 3000);
+      return () => clearTimeout(timer);
+    }
   }, [error]);
+
+  useEffect(() => {
+    if (success) {
+      const timer = setTimeout(() => {
+        setSuccess(null);
+      }, 3000);
+      return () => clearTimeout(timer);
+    }
+  }, [success]);
 
   useEffect(() => {
     setTitle(tabInfo.title);
@@ -33,14 +45,16 @@ export function BookmarkForm({
     if (activeTab === "note") {
       setTitle("");
     }
-  }, [tabInfo.title, tabInfo.url]);
+  }, [tabInfo.title, tabInfo.url, activeTab]);
 
   useEffect(() => {
     fetchFolders();
   }, [fetchFolders]);
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setError(null);
+    setSuccess(null);
 
     if (activeTab === "url" && !url.trim()) {
       setError("URL is required.");
@@ -65,6 +79,7 @@ export function BookmarkForm({
         return;
       }
     }
+
     const payload: CreateBookmarkPayload =
       activeTab === "url"
         ? {
@@ -81,19 +96,24 @@ export function BookmarkForm({
             folderId: selectedFolder,
             tags,
           };
-    addBookmark(payload)
-      .then(() => {
-        setTitle("");
-        setUrl("");
-        setNotes("");
-        setSelectedFolder("");
-        setTags([]);
-        setTagInput("");
-      })
-      .catch((error) => {
-        console.error("Error adding bookmark:", error);
-        setError("Failed to save bookmark. Please try again.");
-      });
+
+    try {
+      await addBookmark(payload);
+
+      const folderName =
+        folders.find((f) => f.id === selectedFolder)?.name || "folder";
+      setSuccess(`Bookmark saved to ${folderName}!`);
+
+      setTitle("");
+      setUrl("");
+      setNotes("");
+      setSelectedFolder("");
+      setTags([]);
+      setTagInput("");
+    } catch (error) {
+      console.error("Error adding bookmark:", error);
+      setError("Failed to save bookmark. Please try again.");
+    }
   };
 
   const handleTagKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
@@ -115,7 +135,7 @@ export function BookmarkForm({
     <div className="mt-4">
       <form onSubmit={handleSubmit} className="space-y-4">
         <label htmlFor="title" className="block text-sm font-medium mt-2 mb-1">
-          Title(optional)
+          Title (optional)
         </label>
         <input
           type="text"
@@ -217,10 +237,27 @@ export function BookmarkForm({
             ))}
           </div>
         )}
-        {error && <div className="text-red-500 text-sm mt-2">{error}</div>}
+
+        {/* Success Message */}
+        {success && (
+          <div className="flex items-center gap-2 text-green-600 dark:text-green-400 text-sm mt-2 bg-green-50 dark:bg-green-900/20 p-3 rounded-md">
+            <Check className="size-4" />
+            <span>{success}</span>
+          </div>
+        )}
+
+        {/* Error Message */}
+        {error && (
+          <div className="flex items-center gap-2 text-red-500 text-sm mt-2 bg-red-50 dark:bg-red-900/20 p-3 rounded-md">
+            <X className="size-4" />
+            <span>{error}</span>
+          </div>
+        )}
+
         <button
           type="submit"
-          className="mt-4 font-semibold bg-blue-500 text-white py-2 px-4 rounded w-full"
+          disabled={loading}
+          className="mt-4 font-semibold bg-blue-500 hover:bg-blue-600 disabled:bg-blue-300 disabled:cursor-not-allowed text-white py-2 px-4 rounded w-full transition-colors"
         >
           {loading ? "Saving..." : "Save Bookmark"}
         </button>
