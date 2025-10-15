@@ -9,6 +9,7 @@ export const auth = betterAuth({
   database: prismaAdapter(prismaClient, {
     provider: "postgresql",
   }),
+  baseURL: process.env.BETTER_AUTH_URL || "http://localhost:3000",
   socialProviders: {
     google: {
       clientId: process.env.GOOGLE_CLIENT_ID!,
@@ -18,7 +19,11 @@ export const auth = betterAuth({
   emailAndPassword: {
     enabled: false,
   },
-  trustedOrigins: [`chrome-extension://${process.env.CHROME_EXTENSION_ID}`],
+  trustedOrigins: [
+    `chrome-extension://${process.env.CHROME_EXTENSION_ID}`,
+    "http://localhost:3000",
+    "https://clario.shivamte.me",
+  ],
   hooks: {
     after: createAuthMiddleware(async (ctx) => {
       const session = ctx.context.session;
