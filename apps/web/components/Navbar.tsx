@@ -32,7 +32,9 @@ export default function NavBar() {
           >
             Add to Chrome
           </a>
-          <LogIn className="sm:hidden size-5 text-gray-600 dark:text-gray-300" />
+          <Link href="/login" className="sm:hidden">
+            <LogIn className="size-5 text-gray-600 dark:text-gray-300 hover:text-[#ddba0e] transition" />
+          </Link>
         </div>
       </div>
     </nav>
