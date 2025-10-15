@@ -29,7 +29,7 @@ export function NavBar() {
   };
 
   return (
-    <header className="h-16 flex justify-between items-center px-6 sm:px-10 border-b border-gray-200 dark:border-gray-800 bg-white/60 dark:bg-black/40 backdrop-blur-md">
+    <header className="h-16 flex justify-between items-center px-6 sm:px-10 border-b border-gray-200 dark:border-gray-800 bg-white/60 dark:bg-black/40 backdrop-blur-md relative z-50">
       {/* Left: Logo + Brand */}
       <Link href="/dashboard" className="flex items-center gap-2 group">
         <Logo width={32} height={32} />
@@ -44,7 +44,7 @@ export function NavBar() {
         <ThemeToggle />
 
         {/* User dropdown */}
-        <Menu as="div" className="relative">
+        <Menu as="div" className="relative z-50">
           <Menu.Button className="flex items-center gap-2 rounded-full px-2 py-1 hover:bg-gray-100 dark:hover:bg-[#2F2F2F] transition cursor-pointer">
             <Image
               src={user?.image || "/default-avatar.png"}
@@ -56,15 +56,15 @@ export function NavBar() {
             <ChevronDown className="w-4 h-4 text-gray-600 dark:text-gray-300" />
           </Menu.Button>
 
-          <Menu.Items className="absolute right-0 mt-2 w-48 origin-top-right rounded-xl bg-white dark:bg-[#1f1f1f] border border-gray-200 dark:border-gray-700 shadow-xl focus:outline-none z-50">
+          <Menu.Items className="absolute right-0 mt-2 w-48 origin-top-right rounded-xl bg-white dark:bg-[#1f1f1f] border border-gray-200 dark:border-gray-700 shadow-xl focus:outline-none z-[100]">
             <div className="py-2">
               <Menu.Item>
                 {({ active }) => (
                   <button
                     onClick={() => router.push("/dashboard/profile")}
-                    className={`w-full text-left px-4 py-2 text-sm rounded-md cursor-pointer ${
+                    className={`w-full text-left px-4 py-2 text-sm rounded-md cursor-pointer transition-colors ${
                       active
-                        ? "bg-gray-100 dark:bg-[#2A2A2A]"
+                        ? "bg-gray-100 dark:bg-[#2A2A2A] text-gray-900 dark:text-gray-100"
                         : "text-gray-800 dark:text-gray-200"
                     }`}
                   >
@@ -76,9 +76,9 @@ export function NavBar() {
                 {({ active }) => (
                   <button
                     onClick={handleLogout}
-                    className={`w-full text-left px-4 py-2 text-sm rounded-md cursor-pointer ${
+                    className={`w-full text-left px-4 py-2 text-sm rounded-md cursor-pointer transition-colors ${
                       active
-                        ? "bg-gray-100 dark:bg-[#2A2A2A]"
+                        ? "bg-red-50 dark:bg-red-900/20 text-red-600 dark:text-red-400"
                         : "text-gray-800 dark:text-gray-200"
                     }`}
                   >
