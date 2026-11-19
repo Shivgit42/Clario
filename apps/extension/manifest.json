@@ -19,17 +19,30 @@
   },
   "content_scripts": [
     {
-      "matches": ["<all_urls>"],
-      "js": ["src/content.tsx"]
+      "matches": [
+        "<all_urls>"
+      ],
+      "js": [
+        "src/content.tsx"
+      ]
     }
   ],
   "background": {
     "service_worker": "src/background.ts"
   },
-  "permissions": ["activeTab"],
-  "host_permissions": ["<all_urls>"],
+  "permissions": [
+    "activeTab"
+  ],
+  "host_permissions": [
+    "<all_urls>"
+  ],
   "externally_connectable": {
-    "matches": ["http://localhost:3000/*", "https://clario.shivamte.me/*"],
-    "ids": ["*"]
+    "matches": [
+      "http://localhost:3000/*",
+      "https://clario.shivamrana.space/*"
+    ],
+    "ids": [
+      "*"
+    ]
   }
 }

@@ -3,7 +3,7 @@ import { StrictMode } from "react";
 import { ContentPage } from "./content/content";
 
 const blockedSites = [
-  "clario.shivamte.me",
+  "clario.shivamrana.space",
   "localhost",
   "accounts.google.com/o/oauth2/auth/oauthchooseaccount",
   "accounts.google.com/o/oauth2/auth",

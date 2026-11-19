@@ -10,7 +10,7 @@ const isDevelopment =
   window.location.hostname === "localhost";
 
 export const API_URL = isExtension
-  ? "https://clario.shivamte.me/api"
+  ? "https://clario.shivamrana.space/api"
   : isDevelopment
     ? "http://localhost:3000/api"
-    : "https://clario.shivamte.me/api";
+    : "https://clario.shivamrana.space/api";

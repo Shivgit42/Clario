@@ -26,11 +26,11 @@ export const metadata: Metadata = {
     title: "Clario",
     description:
       "Clario is a modern bookmark manager that lets you save, organize, and discover your favorite links with ease and style.",
-    url: "https://clario.shivamte.me",
+    url: "https://clario.shivamrana.space",
     siteName: "Clario",
     images: [
       {
-        url: "https://clario.shivamte.me/og-thumbnail.png",
+        url: "https://clario.shivamrana.space/og-thumbnail.png",
         width: 1200,
         height: 630,
         alt: "Clario Thumbnail",
@@ -43,7 +43,7 @@ export const metadata: Metadata = {
     title: "Clario",
     description:
       "Clario is a modern bookmark manager that lets you save, organize, and discover your favorite links with ease and style.",
-    images: ["https://clario.shivamte.me/og-thumbnail.png"],
+    images: ["https://clario.shivamrana.space/og-thumbnail.png"],
   },
 };
 

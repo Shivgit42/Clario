@@ -22,7 +22,7 @@ export const auth = betterAuth({
   trustedOrigins: [
     `chrome-extension://${process.env.CHROME_EXTENSION_ID}`,
     "http://localhost:3000",
-    "https://clario.shivamte.me",
+    "https://clario.shivamrana.space",
   ],
   hooks: {
     after: createAuthMiddleware(async (ctx) => {
